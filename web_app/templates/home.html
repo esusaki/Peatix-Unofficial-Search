@@ -85,7 +85,11 @@
     </div>
     <div>
         {% if result != False %}
-        <div style="border-bottom: 3px solid skyblue;margin: 5px;font-size: 22px;">検索結果（{{result_count}}件）</div>
+            {% if result_count == 10000 %}
+                <div style="border-bottom: 3px solid skyblue;margin: 5px;font-size: 22px;">検索結果（結果が多いため、先頭1万件のみを表示しています）</div>
+            {% else %}
+                <div style="border-bottom: 3px solid skyblue;margin: 5px;font-size: 22px;">検索結果（{{result_count}}件）</div>
+            {% endif %}    
          {% for row in result %}
             <div class="event-row">
                 {{row[2]}} 

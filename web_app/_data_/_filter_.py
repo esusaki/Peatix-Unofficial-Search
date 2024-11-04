@@ -33,5 +33,5 @@ def filter(keywords, date_min, date_max, places):
     else:
         option_query_4 = f"AND pref IN (SELECT pref FROM prefecture WHERE chihou IN ({'"' + '","'.join(places) + '"'}))"
 
-    cursor.execute(f"SELECT * FROM event WHERE {option_query_1} {option_query_2} {option_query_3} {option_query_4} ORDER BY start_date")
+    cursor.execute(f"SELECT * FROM event WHERE {option_query_1} {option_query_2} {option_query_3} {option_query_4} ORDER BY start_date LIMIT 10000")
     return cursor.fetchall()
