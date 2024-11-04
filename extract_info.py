@@ -18,14 +18,14 @@ def extract(target_id):
         target_text = f.read()
     
     if target_text == "":
-        print(f"Page Not Found:{target_id}")
+        #print(f"Page Not Found:{target_id}")
         return
     
     soup = BeautifulSoup(target_text, "html.parser")
     title = soup.find(property = "og:title")["content"]
 
     if title == "Peatix: Tools for Communities and Events":
-        print(f"Page Not Found:{target_id}")
+        #print(f"Page Not Found:{target_id}")
         return
 
     if title == "Authorization required":
@@ -54,33 +54,35 @@ def extract(target_id):
     place_str = place_str.strip()
 
     pref = None
+    GeoCoordinates = soup.find(itemtype = "http://schema.org/GeoCoordinates")
 
-    if place_str == "オンライン":
-        pref = "オンライン"
-    else:
-        GeoCoordinates = soup.find(itemtype = "http://schema.org/GeoCoordinates")
-
-        if GeoCoordinates == None:
-            print("error! 対面開催ですが、緯度経度の情報がありません", target_id)
+    if GeoCoordinates == None:
+        if "オンライン" in place_str or "online" in place_str or "Online" in place_str or "Zoom" in place_str or "zoom" in place_str or "ZOOM" in place_str:
+            pref = "オンライン"
         else:
+            with open("todoufuken-chihou.csv",encoding="utf-8") as f:
+                都道府県リスト = [r.split(",")[0] for r in f.read().split()]
+            for 都道府県 in 都道府県リスト:
+                if 都道府県 in place_str:
+                    pref = 都道府県
 
-            print(place_str)
-            for meta in GeoCoordinates.find_all("meta"):
-                if meta["itemprop"] == "latitude":
-                    latitude = meta["content"]
-                elif meta["itemprop"] == "longitude":
-                    longitude = meta["content"]
-                
-            if latitude == None or longitude == None:
-                print("error! 緯度経度の情報がありません", target_id)
-                exit()
-            else:
-                pref = 緯度経度から都道府県(latitude, longitude)
+    else:
+        for meta in GeoCoordinates.find_all("meta"):
+            if meta["itemprop"] == "latitude":
+                latitude = meta["content"]
+            elif meta["itemprop"] == "longitude":
+                longitude = meta["content"]
+            
+        if latitude == None or longitude == None:
+            print("error! 緯度経度の情報がありません", target_id)
+            exit()
+        else:
+            pref = 緯度経度から都道府県(latitude, longitude)
+ 
+            if pref == None and ("北海道" in  place_str or "札幌市" in place_str):
+                pref = "北海道"
 
     with open(f"saved_pages/last_fetched_time/{target_id}.txt") as f:
         last_fetched_time_str = f.read()
 
     return {"id":target_id,"title":title, "start_date":start_date, "keywords":keywords, "pref":pref, "last_fetched":last_fetched_time_str, "place":place_str}
-
-#for id in range(4150000, 4165000):
-#    print(extract(id))

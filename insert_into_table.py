@@ -36,7 +36,7 @@ def insert_keyword(event_id, keyword):
     conn.commit()
     conn.close()
 
-for _id_ in range(4130000, 4150000):
+for _id_ in range(4110000, 4150000):
 
     result = extract(_id_)
 
