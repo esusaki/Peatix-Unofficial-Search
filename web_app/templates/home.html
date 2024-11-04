@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peatix-Unofficial-Search</title>
+    <style>
+        .event-row{
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+        }
+        body {
+            background-color: #eee;
+        }
+        .event-title{
+            font-size: 18px;
+        }
+        .event-link{
+            text-decoration: none;
+            color: black;
+        }
+        .event-link:hover{
+            color: green;
+        }
+        #search-button{
+            width: fit-content;
+            border: none;
+            background-color: skyblue;
+            padding: 8px 30px;
+            color: white;
+            border-radius: 15px;
+            font-size: 18px;
+        }
+        #search-button:hover{
+            background-color: lightskyblue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div style="border:3px solid green;border-radius: 10px; background-color: rgb(228, 249, 229);">
+        <h1 style="background-color: green;color: white;margin: 0px;padding: 10px;font-size: 25px;">
+            🔍Peatix-Search
+        </h1>
+        <form method="POST" style="margin: 10px;">
+            開催日：
+            {% if date_min_default == None %}
+                <input type="date" name="date_min">
+            {% else %}
+                <input type="date" name="date_min" value="{{default_form_value['date_min']}}">
+            {% endif %}
+            ～
+            {% if date_max_default == None %}
+                <input type="date" name="date_max">
+            {% else %}
+                <input type="date" name="date_max" value="{{default_form_value['date_max']}}">
+            {% endif %}
+            <div>
+                開催場所：
+                {% for _chihou_ in places_for_checkbox %}
+                    {% if _chihou_ in default_form_value %}
+                        <label><input type="checkbox" name="{{_chihou_}}" checked> {{_chihou_}} </label>
+                    {% else %}
+                        <label><input type="checkbox" name="{{_chihou_}}"> {{_chihou_}} </label>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div>
+                ジャンル：
+                {% for _keyword_ in keywords_for_checkbox %}
+                    <label>
+                        {% if _keyword_ in default_form_value %}
+                            <input type="checkbox" name = "{{_keyword_}}" checked>
+                        {% else %}
+                            <input type="checkbox" name = "{{_keyword_}}">
+                        {% endif %}
+                        {{_keyword_}}
+                    </label>
+                {% endfor %}
+            </div>
+                <div style="text-align: center;margin: 5px;"><button type="submit" id="search-button">検索</button></div>
+        </form>
+    </div>
+    <div>
+        {% if result != False %}
+        <div style="border-bottom: 3px solid skyblue;margin: 5px;font-size: 22px;">検索結果（{{result_count}}件）</div>
+         {% for row in result %}
+            <div class="event-row">
+                {{row[2]}} 
+                🌏{{row[4]}}
+
+                <div class="event-title"><a href="https://peatix.com/event/{{row[0]}}" class="event-link" target="_blank">{{row[1]}}</a></div>
+            </div>
+         {% endfor %}
+        {% endif %}
+        
+    </div>
+</body>
+</html>
