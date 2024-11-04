@@ -41,5 +41,9 @@ def home():
 
     return render_template("home.html", keywords_for_checkbox = keywords_for_checkbox, result = result, result_count = result_count, default_form_value = default_form_value, places_for_checkbox = 地方リスト())
 
+@app.route("/favicon.ico")
+def favicon():
+    return app.send_static_file("favicon.ico")
+
 if (__name__ == "__main__"):
     app.run(debug = True)
