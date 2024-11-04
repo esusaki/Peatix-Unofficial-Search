@@ -1,12 +1,16 @@
 import sqlite3
 import datetime
+import os, sys
 
 def current_date():
     now = datetime.datetime.now()
     return datetime.datetime.strftime(now, "%Y-%m-%d %H:%M")
 
 def filter(keywords, date_min, date_max, places):
-    conn = sqlite3.connect("_data_/data.db")
+
+    sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
+    conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
 
     if date_min == False or date_min == "":

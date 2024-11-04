@@ -1,8 +1,11 @@
 import sqlite3
+import os, sys
 
 def 地方リスト():
 
-    conn = sqlite3.connect("_data_/data.db")
+    sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
+    conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT DISTINCT chihou FROM prefecture;")

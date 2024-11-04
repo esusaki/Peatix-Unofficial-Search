@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
-from _data_.地方リスト import 地方リスト
+from flask import Flask, render_template, request
+#from web_app._data_.地方リスト import 地方リスト
+import os, sys
+
 
 app = Flask(__name__)
 
-#sys.path.append(os.path.dirname(os.path.abspath(__file__) + "\.."))
-#print(os.path.dirname(os.path.abspath(__file__) + "\.."))
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from _data_._filter_ import filter
+from _data_.地方リスト import 地方リスト
 
 @app.route("/", methods = ["GET","POST"])
 def home():
