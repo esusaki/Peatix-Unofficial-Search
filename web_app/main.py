@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 #from web_app._data_.地方リスト import 地方リスト
 import os, sys
 
-
-app = Flask(__name__)
+app = Flask(__name__, static_folder="./static/")
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from _data_._filter_ import filter

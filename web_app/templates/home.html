@@ -42,7 +42,7 @@
 <body>
     <div style="border:3px solid green;border-radius: 10px; background-color: rgb(228, 249, 229);">
         <h1 style="background-color: green;color: white;margin: 0px;padding: 10px;font-size: 25px;">
-            🔍Peatix-Search
+            <img src="{{url_for('static' , filename = 'search_icon.png')}}" alt="検索アイコン" width="25px"> Peatix-Search
         </h1>
         <form method="POST" style="margin: 10px;">
             開催日：
@@ -86,7 +86,7 @@
     <div>
         {% if result != False %}
             {% if result_count == 10000 %}
-                <div style="border-bottom: 3px solid skyblue;margin: 5px;font-size: 22px;">検索結果（結果が多いため、先頭1万件のみを表示しています）</div>
+                <div style="border-bottom: 3px solid skyblue;margin: 5px;font-size: 22px;">検索結果（件数が多いため、先頭1万件のみを表示しています）</div>
             {% else %}
                 <div style="border-bottom: 3px solid skyblue;margin: 5px;font-size: 22px;">検索結果（{{result_count}}件）</div>
             {% endif %}    
