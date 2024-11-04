@@ -94,7 +94,7 @@
          {% for row in result %}
             <div class="event-row">
                 {{row[2]}} 
-                🌏{{row[4]}}
+                <img src="{{url_for('static', filename = 'pin_icon.png')}}" width="15px"><span style="color: #222;font-size: 15px;"> {{row[4]}}</span>
 
                 <div class="event-title"><a href="https://peatix.com/event/{{row[0]}}" class="event-link" target="_blank">{{row[1]}}</a></div>
             </div>
